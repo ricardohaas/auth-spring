@@ -28,4 +28,14 @@ public class Role {
     @GeneratedValue
     private long roleId;
     private String name;
+
+    public enum Values{
+        BASIC(1L),
+        ADMIN(2L);
+        Long roleId;
+
+        Values(long roleId) {
+            this.roleId = roleId;
+        }
+    }
 }
