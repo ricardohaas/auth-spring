@@ -10,5 +10,6 @@ services:
       MYSQL_PASSWORD: "123"
       MYSQL_DATABASE: "mydb"
       MYSQL_ROOT_PASSWORD: "123"
+      MYSQL_ROOT_HOST: '%'
     volumes:
       - ./my.cnf:/etc/mysql/conf.d/my.cnf

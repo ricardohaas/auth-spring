@@ -1,0 +1,8 @@
+com/authproject/repository/TweetRepository.class
+com/authproject/repository/UserRepository.class
+com/authproject/entities/User.class
+com/authproject/entities/Role$Values.class
+com/authproject/AuthprojectApplication.class
+com/authproject/repository/RoleRepository.class
+com/authproject/entities/Tweet.class
+com/authproject/entities/Role.class

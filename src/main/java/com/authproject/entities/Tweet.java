@@ -4,6 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -21,6 +24,10 @@ public class Tweet {
 
     @CreationTimestamp
     private Instant creationTimestamp;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public long getTweetId() {
         return tweetId;

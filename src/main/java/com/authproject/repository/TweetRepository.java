@@ -1,10 +1,10 @@
 package com.authproject.repository;
 
-import com.authproject.entities.Role;
+import com.authproject.entities.Tweet;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface RoleRepository extends JpaRepository<Role, UUID> {
+public interface TweetRepository extends JpaRepository<Tweet, UUID> {
 
 }
