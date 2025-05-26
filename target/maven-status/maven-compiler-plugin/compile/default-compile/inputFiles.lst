@@ -1,7 +1,0 @@
-/home/luisricardo/Documents/repo/auth-spring/src/main/java/com/authproject/AuthprojectApplication.java
-/home/luisricardo/Documents/repo/auth-spring/src/main/java/com/authproject/entities/Role.java
-/home/luisricardo/Documents/repo/auth-spring/src/main/java/com/authproject/entities/Tweet.java
-/home/luisricardo/Documents/repo/auth-spring/src/main/java/com/authproject/entities/User.java
-/home/luisricardo/Documents/repo/auth-spring/src/main/java/com/authproject/repository/RoleRepository.java
-/home/luisricardo/Documents/repo/auth-spring/src/main/java/com/authproject/repository/TweetRepository.java
-/home/luisricardo/Documents/repo/auth-spring/src/main/java/com/authproject/repository/UserRepository.java
