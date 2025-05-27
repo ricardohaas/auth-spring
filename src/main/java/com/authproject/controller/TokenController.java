@@ -2,6 +2,7 @@ package com.authproject.controller;
 
 import com.authproject.dto.LoginRequest;
 import com.authproject.dto.LoginResponse;
+import com.authproject.entities.User;
 import com.authproject.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
+import java.util.Optional;
 
 @RestController
 public class TokenController {
@@ -35,8 +37,8 @@ public class TokenController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest){
-        var user = userRepository.findByUsername(loginRequest.username());
-        if(user.isEmpty() || user.get().isLoginIncorrect(loginRequest, passwordEncoder)){
+        Optional<User> user = userRepository.findByUsername(loginRequest.username());
+        if(user.isEmpty() || user.get().isLoginIncorrect(loginRequest, this.passwordEncoder)){
             throw  new BadCredentialsException("Usuário ou senha inválida");
         }
 

@@ -1,6 +1,6 @@
 services:
   mysql:
-    image: mysql
+    image: mysql:9.3.0
     ports:
       - "3306:3306"
     expose:
@@ -11,5 +11,3 @@ services:
       MYSQL_DATABASE: "mydb"
       MYSQL_ROOT_PASSWORD: "123"
       MYSQL_ROOT_HOST: '%'
-    volumes:
-      - ./my.cnf:/etc/mysql/conf.d/my.cnf
