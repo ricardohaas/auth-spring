@@ -1,7 +1,8 @@
 package com.authproject.controller;
 
-import com.authproject.dto.LoginRequest;
-import com.authproject.dto.LoginResponse;
+import com.authproject.controller.dto.LoginRequest;
+import com.authproject.controller.dto.LoginResponse;
+import com.authproject.entities.Role;
 import com.authproject.entities.User;
 import com.authproject.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class TokenController {
@@ -45,10 +47,23 @@ public class TokenController {
         var now = Instant.now();
         var expiresIn = 600L;
 
+        var roles = user.get().getRoles()
+                .stream()
+                .map(role -> "" + role.getName().toUpperCase())
+                .collect(Collectors.joining(" "));
+
+        var scopes = user.get().getRoles()
+                .stream()
+                .map(role -> "" + role.getName().toUpperCase())
+                .collect(Collectors.joining(" "));
+
+
         var claims = JwtClaimsSet.builder()
-                .issuer("auth spring training")
+                .issuer("auth_spring_training")
                 .subject(user.get().getUserId().toString())
                 .issuedAt(now)
+                .claim("roles", roles)
+                .claim("scopes", scopes)
                 .expiresAt(now.plusSeconds(expiresIn))
                 .build();
 

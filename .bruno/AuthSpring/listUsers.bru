@@ -1,0 +1,22 @@
+meta {
+  name: /listUsers
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://localhost:8080/users
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "username": "admin",
+    "password": "123"
+  }
+}
