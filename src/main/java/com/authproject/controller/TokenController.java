@@ -1,8 +1,7 @@
 package com.authproject.controller;
 
-import com.authproject.controller.dto.LoginRequest;
-import com.authproject.controller.dto.LoginResponse;
-import com.authproject.entities.Role;
+import com.authproject.controller.dto.LoginRequestDto;
+import com.authproject.controller.dto.LoginResponseDto;
 import com.authproject.entities.User;
 import com.authproject.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
@@ -38,9 +37,9 @@ public class TokenController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest){
-        Optional<User> user = userRepository.findByUsername(loginRequest.username());
-        if(user.isEmpty() || user.get().isLoginIncorrect(loginRequest, this.passwordEncoder)){
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto){
+        Optional<User> user = userRepository.findByUsername(loginRequestDto.username());
+        if(user.isEmpty() || user.get().isLoginIncorrect(loginRequestDto, this.passwordEncoder)){
             throw  new BadCredentialsException("Usuário ou senha inválida");
         }
 
@@ -69,6 +68,6 @@ public class TokenController {
 
         var jwtValue = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 
-        return ResponseEntity.ok(new LoginResponse(jwtValue, expiresIn));
+        return ResponseEntity.ok(new LoginResponseDto(jwtValue, expiresIn));
     }
 }

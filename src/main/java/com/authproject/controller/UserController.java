@@ -1,6 +1,6 @@
 package com.authproject.controller;
 
-import com.authproject.controller.dto.CreateUserRequest;
+import com.authproject.controller.dto.CreateUserRequestDto;
 import com.authproject.entities.Role;
 import com.authproject.entities.User;
 import com.authproject.repository.RoleRepository;
@@ -35,18 +35,18 @@ public class UserController {
 
     @PostMapping("/users")
     @Transactional
-    public ResponseEntity<Void> newUser(@RequestBody CreateUserRequest createUserRequest){
+    public ResponseEntity<Void> newUser(@RequestBody CreateUserRequestDto createUserRequestDto){
         var basicRole = roleRepository.findByName(Role.Values.BASIC.name());
 
-        Optional userFromDB = userRepository.findByUsername(createUserRequest.username());
+        Optional userFromDB = userRepository.findByUsername(createUserRequestDto.username());
 
         if(userFromDB.isPresent()) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         var user = new User();
-        user.setPassword(passwordEncoder.encode(createUserRequest.password()));
-        user.setUsername(createUserRequest.username());
+        user.setPassword(passwordEncoder.encode(createUserRequestDto.password()));
+        user.setUsername(createUserRequestDto.username());
         user.setRoles(Set.of(basicRole));
 
         userRepository.save(user);

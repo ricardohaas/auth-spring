@@ -1,6 +1,6 @@
 package com.authproject.entities;
 
-import com.authproject.controller.dto.LoginRequest;
+import com.authproject.controller.dto.LoginRequestDto;
 import jakarta.persistence.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -61,7 +61,7 @@ public class User {
         this.roles = roles;
     }
 
-    public boolean isLoginIncorrect(LoginRequest loginRequest, BCryptPasswordEncoder passwordEncoder) {
-        return passwordEncoder.matches(loginRequest.password(), this.password) == false;
+    public boolean isLoginIncorrect(LoginRequestDto loginRequestDto, BCryptPasswordEncoder passwordEncoder) {
+        return passwordEncoder.matches(loginRequestDto.password(), this.password) == false;
     }
 }
