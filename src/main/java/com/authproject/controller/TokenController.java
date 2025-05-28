@@ -61,8 +61,8 @@ public class TokenController {
                 .issuer("auth_spring_training")
                 .subject(user.get().getUserId().toString())
                 .issuedAt(now)
-                .claim("roles", roles)
-                .claim("scopes", scopes)
+                .claim("role", roles)
+                .claim("scope", scopes)
                 .expiresAt(now.plusSeconds(expiresIn))
                 .build();
 
