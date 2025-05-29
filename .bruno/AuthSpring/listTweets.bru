@@ -1,0 +1,22 @@
+meta {
+  name: /listTweets
+  type: http
+  seq: 7
+}
+
+get {
+  url: http://localhost:8080/tweets/admin
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "username": "admin",
+    "password": "123"
+  }
+}

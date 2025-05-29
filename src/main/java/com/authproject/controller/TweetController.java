@@ -3,20 +3,21 @@ package com.authproject.controller;
 import com.authproject.controller.dto.CreateTweetDto;
 import com.authproject.entities.Tweet;
 import com.authproject.entities.User;
+import com.authproject.events.TweetCreatedEvent;
 import com.authproject.repository.TweetRepository;
 import com.authproject.repository.UserRepository;
+import com.authproject.services.TweetEventService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,10 +26,13 @@ public class TweetController {
     private final TweetRepository tweetRepository;
     private final UserRepository userRepository;
 
+    private final TweetEventService tweetEventService;
 
-    public TweetController(TweetRepository tweetRepository, UserRepository userRepository) {
+
+    public TweetController(TweetRepository tweetRepository, UserRepository userRepository, TweetEventService tweetEventService) {
         this.tweetRepository = tweetRepository;
         this.userRepository = userRepository;
+        this.tweetEventService = tweetEventService;
     }
 
     @PostMapping("/tweets")
@@ -38,6 +42,13 @@ public class TweetController {
         if( user.isEmpty()){
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
         }
+
+        TweetCreatedEvent tweetCreatedEvent = new TweetCreatedEvent();
+        tweetCreatedEvent.setContent(createTweetDto.content());
+        tweetCreatedEvent.setUserId(user.get().getUserId());
+
+        tweetEventService.publishTweetCreatedEvent(tweetCreatedEvent);
+
         var tweet = new Tweet();
         tweet.setContent(createTweetDto.content());
         tweet.setUser(user.get());
@@ -63,5 +74,17 @@ public class TweetController {
         }
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/tweets/{username}")
+    public ResponseEntity<List<Tweet>> getTweetsByUser(@PathVariable("username") String username){
+        Optional<User> user  =  userRepository.findByUsername(username);
+        if(user.isEmpty()){
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+        }
+
+        List<Tweet> tweets = tweetRepository.findByUser_UserId(user.get().getUserId());
+
+        return ResponseEntity.ok(tweets);
     }
 }

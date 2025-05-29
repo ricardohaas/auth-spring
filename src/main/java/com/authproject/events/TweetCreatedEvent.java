@@ -1,4 +1,4 @@
-package com.authproject.event;
+package com.authproject.events;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
