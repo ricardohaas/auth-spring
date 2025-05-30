@@ -29,6 +29,10 @@ public class Role {
     private long roleId;
     private String name;
 
+    public void setId(long l) {
+        roleId = l;
+    }
+
     public enum Values{
         ADMIN(1L),
         BASIC(2L);
