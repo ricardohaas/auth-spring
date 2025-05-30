@@ -83,7 +83,7 @@ public class TweetController {
     }
 
     @GetMapping("/tweets/{username}")
-    public ResponseEntity<?> getTweetsByUser(@PathVariable("username") String username,
+    public ResponseEntity<Page> getTweetsByUser(@PathVariable("username") String username,
                                              @RequestParam(defaultValue = "0") int page,
                                              @RequestParam(defaultValue = "5") int size) {
         Optional<User> user = userRepository.findByUsername(username);
